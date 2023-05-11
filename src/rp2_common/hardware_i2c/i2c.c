@@ -235,6 +235,7 @@ static int i2c_write_blocking_internal(i2c_inst_t *i2c, uint8_t addr, const uint
 
     // nostop means we are now at the end of a *message* but not the end of a *transfer*
     i2c->restart_on_next = nostop;
+    i2c->last_abort_reason = abort_reason;
     return rval;
 }
 
@@ -268,7 +269,7 @@ static int i2c_read_blocking_internal(i2c_inst_t *i2c, uint8_t addr, uint8_t *ds
 
     bool abort = false;
     bool timeout = false;
-    uint32_t abort_reason;
+    uint32_t abort_reason = 0;
     int byte_ctr;
     int ilen = (int)len;
     for (byte_ctr = 0; byte_ctr < ilen; ++byte_ctr) {
@@ -315,6 +316,7 @@ static int i2c_read_blocking_internal(i2c_inst_t *i2c, uint8_t addr, uint8_t *ds
     }
 
     i2c->restart_on_next = nostop;
+    i2c->last_abort_reason = abort_reason;
     return rval;
 }
 
