@@ -135,6 +135,7 @@ void i2c_set_slave_mode(i2c_inst_t *i2c, bool slave, uint8_t addr);
 struct i2c_inst {
     i2c_hw_t *hw;
     bool restart_on_next;
+    uint32_t last_abort_reason;
 };
 
 /*! \brief Convert I2C instance to hardware instance number
